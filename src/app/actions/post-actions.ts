@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { Post } from "@/generated/prisma";
 
 export async function deletePost(formData: FormData): Promise<void> {
   const id = formData.get("id") as string;
@@ -18,7 +19,7 @@ export async function deletePost(formData: FormData): Promise<void> {
 
   return;
 }
-export async function getPost(): Promise<Post> {
+export async function getPost(): Promise<Response | Post[]> {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
@@ -30,7 +31,7 @@ export async function getPost(): Promise<Post> {
 
   return posts;
 }
-export async function getPostById(id: string): Promise<Post> {
+export async function getPostById(id: string): Promise<Response | Post> {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new Response("Unauthorized", { status: 401 });

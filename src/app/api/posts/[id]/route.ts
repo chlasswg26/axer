@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -13,8 +13,9 @@ export async function GET(
   }
 
   try {
+    const { id } = await context.params;
     const post = await prisma.post.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
     if (!post) return new Response("Post not found", { status: 404 });
     return Response.json(post);

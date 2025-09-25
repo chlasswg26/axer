@@ -1,0 +1,7 @@
+<svg width="130" height="44" viewBox="0 0 130 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Replaced original outlined-path logo text with a text element for "Axer" using Poppins Bold -->
+<text x="58" y="30" fill="#181C31" font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="18">Axer</text>
+
+<rect width="44" height="44" rx="10" fill="#4E6BFF"/>
+<path d="M22.625 19.625H30.1111L20.4861 33.5278V23.9028H13L22.625 10V19.625Z" fill="white"/>
+</svg>

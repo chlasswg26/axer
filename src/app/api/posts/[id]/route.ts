@@ -26,7 +26,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -34,9 +34,10 @@ export async function PUT(
   }
 
   try {
+    const { id } = await context.params;
     const { title, content, published } = await req.json();
     const post = await prisma.post.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { title, content, published },
     });
     return Response.json(post);
@@ -47,15 +48,16 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   try {
-    await prisma.post.delete({ where: { id: params.id } });
+    await prisma.post.delete({ where: { id: id } });
     return new Response(null, { status: 204 });
   } catch (error) {
     return new Response("Error deleting post", { status: 500 });
